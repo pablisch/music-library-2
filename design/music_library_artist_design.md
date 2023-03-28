@@ -36,7 +36,7 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # model class
-# in lib/artists.rb
+# in lib/artist.rb
 class Artist
 end
 
