@@ -2,8 +2,7 @@
 
 ## NOTES:
 
-> Make sure that the {DATABASE NAME} has been entered into the appropriate places in:
-> class DatabaseConnection > #self.connect x2
+> Make sure that the {DATABASE NAME} has been entered into the appropriate place in:
 > spec_helper.rb > DatabaseConnection.connect('your_database_name_test')
 
 ## 1. Design and create the Table
@@ -114,7 +113,7 @@ end
 
 ## 8. CHECK:
 
-> That all the relevant requires are in place:
+> That all the relevant REQUIREs are in place:
 > {table}_repository.rb > require_relative '{table}'
 > {table}_repository_spec.rb > require '{table}_repository'
 > app.rb > require_relative 'lib/database_connection'
@@ -123,4 +122,5 @@ end
 > database_connection.rb > require 'pg'
 
 ## 9. Test-drive and implement the Repository class behaviour
-After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour.
+
+## 10. Code app.rb and test
