@@ -27,4 +27,23 @@ RSpec.describe AlbumRepository do
     expect(album.title).to eq('Future Days') # => 'Future Days'
     expect(album.release_year).to eq('1974') # => 'Future Days'
   end
+
+  it "creates a new album object" do
+    repo = AlbumRepository.new
+    album = Album.new
+    album.title = 'Title'
+    album.release_year = '2023'
+    album.artist_id = '1'
+    repo.create(album)
+    albums = repo.all
+
+    # expect(albums).to include(have_attributes
+    # title: album.title,
+    # release_year: album.release_year,
+    # artist_id: album.artist_id
+    # )
+    expect(albums[-1].title).to eq 'Title'
+    expect(albums[-1].release_year).to eq '2023'
+    expect(albums[-1].artist_id).to eq '1'
+  end
 end

@@ -68,7 +68,7 @@ end
 
 ## 5. Define the Repository Class interface
 ```ruby
-# repository class FILE lib/album_repository.rb
+# 1 repository class FILE lib/album_repository.rb
 class AlbumRepository
   def all
     # executes the SQL query:
@@ -76,11 +76,17 @@ class AlbumRepository
     # returns an array of album objects as hashes
   end
 
-# 1 Find an artist and reyrn a single Artist object
+# 2 Find an artist and reyrn a single Artist object
   def find(id)
     # executes the SQL query:
     # SELECT id, title, release_year, artist_id FROM artists WHERE id = $1;
     # returns an array of album objects as hashes
+  end
+end
+
+  def create(album)
+    # executes the SQL query:
+    # INSERT INTO albums (title, release_year, artist_id) VALUES ($1, $2, $3);
   end
 end
 ```
@@ -100,6 +106,25 @@ id_to_find = 1
 album = repo.find(id_to_find) # an array of Albums objects
 album.first.id # => '1'
 album.first.title # => 'Future Days'
+
+repo = AlbumRepository.new
+album = Album.new
+album.title = 'Title'
+album.release_year = '2023'
+album.artist_id = '1'
+repo.create(album)
+albums = repo.all
+
+=begin
+expect(albums).to include(have_attributes
+title: album.title,
+release_year: album.release_year,
+artist_id: album.artist_id
+)
+=end
+expect(albums[-1].title).to eq 'Title'
+expect(albums[-1].release_year).to eq '2023'
+expect(albums[-1].artist_id).to eq '1'
 ```
 
 ## 7. Reload the SQL seeds before each test run
