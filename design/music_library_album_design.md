@@ -74,6 +74,14 @@ class AlbumRepository
     # executes the SQL query:
     # SELECT id, title, release_year, artist_id FROM artists;
     # returns an array of album objects as hashes
+  end
+
+# 1 Find an artist and reyrn a single Artist object
+  def find(id)
+    # executes the SQL query:
+    # SELECT id, title, release_year, artist_id FROM artists WHERE id = $1;
+    # returns an array of album objects as hashes
+  end
 end
 ```
 
@@ -86,6 +94,12 @@ albums = repo.all # an array of Albums objects
 albums.length # => 2
 albums.first.id # => '1'
 albums.first.title # => 'Future Days'
+
+repo = AlbumRepository.new
+id_to_find = 1
+album = repo.find(id_to_find) # an array of Albums objects
+album.first.id # => '1'
+album.first.title # => 'Future Days'
 ```
 
 ## 7. Reload the SQL seeds before each test run

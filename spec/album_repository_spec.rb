@@ -19,4 +19,12 @@ RSpec.describe AlbumRepository do
     expect(albums.first.id).to eq('1') # => '1'
     expect(albums.first.title).to eq('Future Days') # => 'Future days'
   end
+
+  it "returns selected Album based on id" do
+    repo = AlbumRepository.new
+    id_to_find = 1
+    album = repo.find(id_to_find) # an array of Albums objects
+    expect(album.title).to eq('Future Days') # => 'Future Days'
+    expect(album.release_year).to eq('1974') # => 'Future Days'
+  end
 end
