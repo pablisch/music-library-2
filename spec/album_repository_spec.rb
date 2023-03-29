@@ -37,13 +37,12 @@ RSpec.describe AlbumRepository do
     repo.create(album)
     albums = repo.all
 
-    # expect(albums).to include(have_attributes
-    # title: album.title,
-    # release_year: album.release_year,
-    # artist_id: album.artist_id
-    # )
-    expect(albums[-1].title).to eq 'Title'
-    expect(albums[-1].release_year).to eq '2023'
-    expect(albums[-1].artist_id).to eq '1'
+    expect(albums).to include(have_attributes title: 'Title',
+    release_year: '2023',
+    artist_id: '1') # This works the same as the 'standard' code below
+
+    # expect(albums[-1].title).to eq 'Title'
+    # expect(albums[-1].release_year).to eq '2023'
+    # expect(albums[-1].artist_id).to eq '1'
   end
 end
