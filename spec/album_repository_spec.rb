@@ -37,12 +37,34 @@ RSpec.describe AlbumRepository do
     repo.create(album)
     albums = repo.all
 
-    expect(albums).to include(have_attributes title: 'Title',
+    expect(albums).to include(have_attributes(
+    title: 'Title',
     release_year: '2023',
-    artist_id: '1') # This works the same as the 'standard' code below
+    artist_id: '1')) # This works the same as the 'standard' code below
 
     # expect(albums[-1].title).to eq 'Title'
     # expect(albums[-1].release_year).to eq '2023'
     # expect(albums[-1].artist_id).to eq '1'
+  end
+
+  it "deletes an album from the db" do
+    repo = AlbumRepository.new
+    id_to_delete = 1
+    repo.delete(id_to_delete)
+    albums = repo.all
+    expect(albums.length).to eq(1)
+    expect(albums[0].id).to eq('2')
+  end
+
+  it "updates an album in the db" do
+    repo = AlbumRepository.new
+    id_to_update = 1
+    album = repo.find(id_to_update)
+    album.title = "Past Days"
+    album.release_year = "1999"
+    repo.update(album)
+    updated_album = repo.find(id_to_update)
+    expect(updated_album.title).to eq('Past Days')
+    expect(updated_album.release_year).to eq('1999')
   end
 end

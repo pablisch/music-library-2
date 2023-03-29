@@ -94,19 +94,21 @@ end
 ## 6. Write Test Examples
 Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
 ```ruby
-# rspec test for #all
+# 1 return all
 repo = AlbumRepository.new
 albums = repo.all # an array of Albums objects
 albums.length # => 2
 albums.first.id # => '1'
 albums.first.title # => 'Future Days'
 
+# 2 find a single album by id
 repo = AlbumRepository.new
 id_to_find = 1
 album = repo.find(id_to_find) # an array of Albums objects
 album.first.id # => '1'
 album.first.title # => 'Future Days'
 
+# 3 create new album
 repo = AlbumRepository.new
 album = Album.new
 album.title = 'Title'
@@ -115,16 +117,32 @@ album.artist_id = '1'
 repo.create(album)
 albums = repo.all
 
-=begin
-expect(albums).to include(have_attributes
-title: album.title,
-release_year: album.release_year,
-artist_id: album.artist_id
-)
-=end
+# expect(albums).to include(have_attributes title: album.title,
+# release_year: album.release_year,
+# artist_id: album.artist_id
+# )
 expect(albums[-1].title).to eq 'Title'
 expect(albums[-1].release_year).to eq '2023'
 expect(albums[-1].artist_id).to eq '1'
+
+# 4 delete album
+repo = AlbumRepository.new
+id_to_delete = 1
+repo.delete(id_to_delete)
+albums = repo.all # returns an array of all albums
+albums.length # => 1
+albums[0].id # => '2'
+
+# 5 update album
+repo = AlbumRepository.new
+id_to_update = 1
+album = repo.find(id_to_update)
+album.title = "Past Days"
+album.title = "Folk"
+repo.update(album)
+updated_album = repo.find(id_to_update)
+updated_album.title # => "Past Days"
+updated_album.genre # => "Folk"
 ```
 
 ## 7. Reload the SQL seeds before each test run
