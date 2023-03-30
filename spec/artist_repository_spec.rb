@@ -12,11 +12,11 @@ RSpec.describe ArtistRepository do
     reset_artists_table
   end
 
-  xit "returns values for Artist objects" do
+  it "returns values for Artist objects" do
     repo = ArtistRepository.new
     artists = repo.all # an array of Artist objects
-    expect(artists.length).to eq(2) # => 2
-    expect(artists.first.id).to eq('1') # => '1'
+    expect(artists.length).to eq(3) # => 2
+    expect(artists.first.id).to eq(1) # => '1'
     expect(artists.first.name).to eq('CAN') # => 'CAN'
   end
 
@@ -25,10 +25,10 @@ RSpec.describe ArtistRepository do
     find_by_id = 1
     artist = repo.find_with_album(find_by_id)
     expect(artist.id).to eq(1) # => '1'
-    expect(artist.name).to eq('Pixies')
-    expect(artist.albums.length).to eq 2
+    expect(artist.name).to eq('CAN')
+    expect(artist.albums.length).to eq 5
     expect(artist.albums[0].title).to eq('Future Days')
-    expect(artist.albums[0].release_year).to eq(1974)
+    expect(artist.albums[0].release_year).to eq(1973)
     expect(artist.albums[0].artist_id).to eq(1)
   end
 end

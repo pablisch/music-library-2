@@ -2,6 +2,8 @@ require_relative 'lib/database_connection'
 require_relative 'lib/artist_repository'
 require_relative 'lib/album_repository'
 
+$first_run = true
+
 # We need to give the database name to the method `connect`.
 DatabaseConnection.connect('music_library')
 
@@ -21,6 +23,8 @@ class Application
   end
 
   def run
+    system("clear") if $first_run == true
+    $first_run = false
     # "Runs" the terminal application
     # so it can ask the user to enter some input
     # and then decide to run the appropriate action
@@ -28,23 +32,30 @@ class Application
 
     # Use `@io.puts` or `@io.gets` to
     # write output and ask for user input.
-    system("clear")
-    @io.puts "Welcome to the music library manager!"
+    @io.puts "\nWelcome to the music library manager!"
     @io.puts "\nWhat would you like to do?"
     @io.puts " 1 - List all albums"
     @io.puts " 2 - List all artists\n"
-    @io.print "Enter your choice: "
+    @io.puts " 3 - Quit\n"
+    @io.print "\nEnter your choice: "
     choice = @io.gets.chomp
     menu_handler(choice)
   end
 
   def menu_handler(choice)
+    system("clear")
     if choice == "1"
-      puts "hi"
+      album_repository = AlbumRepository.new
+      puts "\nHere is your list of albums:"
+      album_repository.all.each_with_index { |album, index| puts "* #{index + 1} - #{album.title}" }
+    elsif choice == "2"
       artist_repository = ArtistRepository.new
-      artist_repository.all.each { |artist| p artist }
-      
+      puts "\nHere is your list of artists:"
+      artist_repository.all.each_with_index { |artist, index| puts "* #{index + 1} - #{artist.name}" }
+    elsif choice == "3"
+      exit
     end
+    run()
   end
 
 end

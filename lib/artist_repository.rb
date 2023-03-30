@@ -9,7 +9,7 @@ class ArtistRepository
 
     result.each do |record| # iterates over the query results
       artist = Artist.new # instantiates a new Artist object
-      artist.id = record['id'] # adds values from the hash result
+      artist.id = record['id'].to_i # adds values from the hash result
       artist.name = record['name']
       artist.genre = record['genre']
 
