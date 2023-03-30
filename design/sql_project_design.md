@@ -2,7 +2,7 @@
 
 ## NOTES:
 
-> Make sure that the {DATABASE NAME} has been entered into the appropriate place in:
+> Make sure that the {DATABASE NAME} has been entered into the appropriate places in:
 > spec_helper.rb > DatabaseConnection.connect('your_database_name_test')
 
 ## 1. Design and create the Table
@@ -27,12 +27,6 @@ psql -h 127.0.0.1 your_database_name_test < {table_name}.sql
 
 -- (file: spec/seeds_{table_name}.sql)
 >> spec/seeds_albums.sql
-
--- Write your SQL seed here. 
-
--- First, you'd need to truncate the table - this is so our table is emptied between each test run,
--- so we can start with a fresh state.
--- (RESTART IDENTITY resets the primary key)
 
 ```sql
 TRUNCATE TABLE albums RESTART IDENTITY; -- 🦠 TABLE NAME! 🦠 replace with your own table name.
@@ -67,24 +61,94 @@ end
 
 ## 5. Define the Repository Class interface
 ```ruby
-# repository class FILE lib/album_repository.rb
+# 1 repository class FILE lib/xxx_repository.rb
 class AlbumRepository
+# return all xxx objects from table
   def all
     # executes the SQL query:
     # SELECT id, title, release_year, artist_id FROM artists;
     # returns an array of album objects as hashes
+  end
+
+# Find and return a single xxx object
+  def find(id)
+    # executes the SQL query:
+    # SELECT id, title, release_year, artist_id FROM artists WHERE id = $1;
+    # returns an array of album objects as hashes
+  end
+end
+
+# Create a new xxx object. Returns nothing
+  def create(album)
+    # executes the SQL query:
+    # INSERT INTO albums (title, release_year, artist_id) VALUES ($1, $2, $3);
+  end
+
+# delete an xxx object identified by id. Returns nothing
+  def delete(id)
+    # executes the SQL query:
+    # DELETE FROM albums WHERE id = $1;
+  end
+
+# update an xxx object identified by id. Returns nothing
+  def update(album)
+    # executes the SQL query:
+    # UPDATE albums SET title = $1, release_year = $2 WHERE id = $3;
+  end
 end
 ```
 
 ## 6. Write Test Examples
 Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
 ```ruby
-# rspec test for #all
+# 1 return all
 repo = AlbumRepository.new
 albums = repo.all # an array of Albums objects
 albums.length # => 2
 albums.first.id # => '1'
 albums.first.title # => 'Future Days'
+
+# 2 find a single album by id
+repo = AlbumRepository.new
+id_to_find = 1
+album = repo.find(id_to_find) # an array of Albums objects
+album.first.id # => '1'
+album.first.title # => 'Future Days'
+
+# 3 create new album
+repo = AlbumRepository.new
+album = Album.new
+album.title = 'Title'
+album.release_year = '2023'
+album.artist_id = '1'
+repo.create(album)
+albums = repo.all
+# expect(albums).to include(have_attributes title: album.title,
+# release_year: album.release_year,
+# artist_id: album.artist_id
+# )
+expect(albums[-1].title).to eq 'Title'
+expect(albums[-1].release_year).to eq '2023'
+expect(albums[-1].artist_id).to eq '1'
+
+# 4 delete album
+repo = AlbumRepository.new
+id_to_delete = 1
+repo.delete(id_to_delete)
+albums = repo.all # returns an array of all albums
+albums.length # => 1
+albums[0].id # => '2'
+
+# 5 update album
+repo = AlbumRepository.new
+id_to_update = 1
+album = repo.find(id_to_update)
+album.title = "Past Days"
+album.title = "Folk"
+repo.update(album)
+updated_album = repo.find(id_to_update)
+updated_album.title # => "Past Days"
+updated_album.genre # => "Folk"
 ```
 
 ## 7. Reload the SQL seeds before each test run
@@ -113,7 +177,7 @@ end
 
 ## 8. CHECK:
 
-> That all the relevant REQUIREs are in place:
+> That all the relevant requires are in place:
 > {table}_repository.rb > require_relative '{table}'
 > {table}_repository_spec.rb > require '{table}_repository'
 > app.rb > require_relative 'lib/database_connection'
@@ -122,5 +186,4 @@ end
 > database_connection.rb > require 'pg'
 
 ## 9. Test-drive and implement the Repository class behaviour
-
-## 10. Code app.rb and test
+After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour.
