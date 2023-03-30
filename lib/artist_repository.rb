@@ -19,6 +19,32 @@ class ArtistRepository
     return artists # returns the array of Artist objects
   end
 
+  def find(id)
+    sql = "SELECT id, name, genre FROM artists WHERE id = $1;"
+    params = [id]
+    result = DatabaseConnection.exec_params(sql, params)
+    entry = result[0]
+    artist = Artist.new
+    artist.id = entry['id']
+    artist.name = entry['name']
+    artist.genre = entry['genre']
+    return artist
+  end
+
+  def create(artist)
+    sql = "INSERT INTO artists (name, genre) VALUES ($1, $2);"
+    params = [artist.name, artist.genre]
+    DatabaseConnection.exec_params(sql, params)
+    return nil
+  end
+
+  def delete(id)
+    sql = "DELETE FROM artists WHERE id = $1;"
+    params = [id]
+    DatabaseConnection.exec_params(sql, params)
+    return nil
+  end
+
   def find_with_album(artist_id)
     sql = 'SELECT artists.id AS "artist_id", artists.name, artists.genre, albums.title, albums.release_year, albums.id AS "albums_id"
     FROM artists

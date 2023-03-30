@@ -10,7 +10,7 @@ INSERT INTO albums (title, release_year, artist_id) VALUES
 ('Can', '1975', 1),
 ('Ege Bamyasi', '1972', 1),
 ('Landed', '1975', 1),
-('Surfer Rosa`', '1988', 2),
+('Surfer Rosa', '1988', 2),
 ('Doolittle', '1989', 2),
 ('Bossanova', '1990', 2)
 ;
