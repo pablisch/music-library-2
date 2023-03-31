@@ -45,6 +45,12 @@ class ArtistRepository
     return nil
   end
 
+  def update(artist)
+    sql = 'UPDATE artists SET name = $1, genre = $2 WHERE id = $3;'
+    params = [album.name, album.genre, album.id]
+    DatabaseConnection.exec_params(sql, params)
+  end
+
   def find_with_album(artist_id)
     sql = 'SELECT artists.id AS "artist_id", artists.name, artists.genre, albums.title, albums.release_year, albums.id AS "albums_id"
     FROM artists
@@ -69,6 +75,5 @@ class ArtistRepository
       artist.albums << album
     end
     return artist
-
   end
 end
