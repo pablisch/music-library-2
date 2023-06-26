@@ -26,4 +26,15 @@ psql -h 127.0.0.1 music_library_test < spec/seeds.sql
 
 The app runs only in CLI. The user can view lists of albums and artists, and quit.
 
+The opening menu looks like this:
+<img src="images/main.png" alt="Opening menu" style="width:450px">
+
+The user can view a list of albums:
+<img src="images/albums.png" alt="Albums list" style="width:450px">
+
+
+The user can view a list of artists:
+<img src="images/artists.png" alt="Artists list" style="width:450px">
+
+
 
