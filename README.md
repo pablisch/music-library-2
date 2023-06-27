@@ -1,5 +1,10 @@
 # Music Library Database CLI App
 
+<p align="left">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/ruby/ruby-original.svg" alt="ruby" width="40" height="40"/>
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/rspec/rspec-original.svg" alt="rspec" width="40" height="40"/>
+</p>
+
 ## Description
 
 This is a simple music library database app that allows users to view lists of albums and artists in terminal.
